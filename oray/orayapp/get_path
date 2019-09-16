@@ -1,0 +1,8 @@
+#!/bin/sh
+
+get_path() {
+	echo "/etc"
+	return 0
+}
+
+

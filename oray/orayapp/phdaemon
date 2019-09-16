@@ -1,0 +1,26 @@
+#!/bin/bash
+ORAYSL="/usr/orayapp/oraysl -a 127.0.0.1 -p 16062 -s phsle01.oray.net:6061 -l /var/log/phddns -L oraysl -f /etc -t /etc/init.status -i /tmp/oraysl.pid -u /tmp/oraysl.status -S /usr/orayapp -d"
+ORAYNEWPH="/usr/orayapp/oraynewph -s 0.0.0.0 -c /var/log/phddns/core.log -p /var/log/phddns -l oraynewph  -f /etc -t /etc/init.status -i /tmp/oraynewph.pid -u /tmp/oraynewph.status -x -d"
+
+checkoraysl(){
+	ORAYSL_PID=`ps -A | grep "oraysl" | grep -v 'grep' | awk '{print $1}'`
+	if [ -z "$ORAYSL_PID" ]; then
+                $ORAYSL 
+        fi
+}
+checkoraynewph(){
+	ORAYNEWPH_PID=`ps -A | grep "oraynewph" | grep -v 'grep' | awk '{print $1}'`
+     	if  [ -z "$ORAYNEWPH_PID" ]; then
+               $ORAYNEWPH  >/dev/null 2>&1 &
+        fi
+}
+
+mkdir /var/log/phddns >/dev/null 2>&1
+chmod 666 /var/log/phddns
+
+while true
+	do 
+	checkoraysl  &
+	checkoraynewph  &
+	sleep 1
+	done
