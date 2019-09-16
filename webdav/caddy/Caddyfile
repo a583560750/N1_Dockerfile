@@ -1,0 +1,13 @@
+:80 {
+#user & password
+basicauth / admin passwd
+
+timeouts none
+gzip
+
+#https
+#tls /etc/https/server.crt /etc/https/server.key
+webdav {
+    scope /webdav
+   }
+}
