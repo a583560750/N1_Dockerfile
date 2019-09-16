@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.authors="lstcml" \
         org.opencontainers.image.title="N1_Webdav" \
         org.opencontainers.image.description="WebDAV docker image using caddy" \
         org.opencontainers.image.url="https://hub.docker.com/r/lstcml/n1_Webdav" \
-        org.opencontainers.image.source="https://github.com/a583560750/docker_N1_Webdav"
+        org.opencontainers.image.source="https://github.com/a583560750/N1_Dockerfile"
 
 # 安装
 ADD caddy /usr/local/caddy
