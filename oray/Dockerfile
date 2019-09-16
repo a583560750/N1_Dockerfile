@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.authors="lstcml" \
         org.opencontainers.image.title="N1_Oray" \
         org.opencontainers.image.description="Oary on arm64" \
         org.opencontainers.image.url="https://hub.docker.com/r/lstcml/n1_oray" \
-        org.opencontainers.image.source="https://github.com/a583560750/docker_N1_Oray"
+        org.opencontainers.image.source="https://github.com/a583560750/N1_Dockerfile"
 #Install
 COPY orayapp/* /usr/orayapp/
 RUN chmod 777 -Rf /usr/orayapp/*
