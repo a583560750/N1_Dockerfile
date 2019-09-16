@@ -9,6 +9,6 @@
 
 `docker build -t your_name/pgy:Tags .`
 
-`docker run -d --restart=always --name pgy --mac-address custom_mac your_name/pgy:Tags`
+`docker run -d --device=/dev/net/tun --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN --name pgy your_name/pgy:Tags`
 #### 使用已存在的镜像
-`docker run -d --restart=always --name pgy --mac-address 11:22:33:44:55:66 lstcml/n1_pgy`
+`docker run -d --device=/dev/net/tun --net=host --cap-add=NET_ADMIN --cap-add=SYS_ADMIN --name pgy lstcml/n1_pgy`
