@@ -1,0 +1,32 @@
+#!/bin/sh
+USER=$1
+PASSWD=$2
+ACCESS=$3
+if [ -n "$USER" ]; then
+	if [ -n "$PASSWD" ]; then
+		if [ -n "$ACCESS" ]; then
+			for i in `seq 1 ${#ACCESS}`
+			do
+				TMP=${ACCESS:$i-1:1}
+				TEST=$(echo RWD | grep "$TMP")
+				if [[ "$TEST" = "" ]]; then
+					echo "access is wrong"
+					exit
+        			fi
+			done
+			CHECK=`cat /config/chfs.ini | grep rule=$USER:`
+			if [ -n "$CHECK" ]; then
+				echo "$USER is exist"
+			else				
+				sed -i "1a\rule=$USER:$PASSWD:$ACCESS" /config/chfs.ini
+				echo "Add $USER success"
+			fi
+		else
+			echo "Please enter user access"
+		fi
+	else
+		echo "Please enter user password"
+	fi
+else 
+	echo "Please enter user name"
+fi

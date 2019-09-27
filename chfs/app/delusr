@@ -1,0 +1,14 @@
+#!/bin/sh
+DUSER=$1
+if [ -n "$DUSER" ]; then
+	LINE=`sed -n "/rule=$DUSER:/=" /config/chfs.ini`
+	if [ -n "$LINE" ]; then
+		sed -i 	"$LINE d" /config/chfs.ini
+		echo "Del $DUSER success"
+	
+	else
+		echo "$DUSER is no exist"
+	fi	
+else
+	echo "Please enter user name"
+fi
