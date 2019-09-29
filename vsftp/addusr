@@ -1,0 +1,18 @@
+#!/bin/sh
+name=$1
+pass=$2
+useradd -m -s /sbin/nologin $name 
+if [ $? -eq 0 ];then
+	echo "${name}:${pass}" |chpasswd
+	if [ $? -eq 0 ];then
+		echo "user ${name} is created successfully!"
+		chown ${name} /home/${name}
+		echo ${name} >> /etc/vsftpd/chroot_list
+	else
+		echo "user ${name} is created failly!"
+	fi
+else
+        echo "user ${name} is created failly!"
+        exit 1
+fi
+
