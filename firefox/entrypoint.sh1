@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -xe
+source /etc/profile
+mkdir -p "/home/firefox/.x11vnc" 2>/dev/null
+x11vnc -storepasswd $VNC_PASSWD /home/firefox/.x11vnc/passwd
+chmod 600 /home/firefox/.x11vnc/passwd
+Xvfb $DISPLAY -screen 0 "$VNC_RESOLUTION"x"$VNC_COL_DEPTH" &
+sleep 5
+x11vnc $DISPLAY -once -loop -noxdamage -repeat -rfbauth /home/firefox/.x11vnc/passwd -rfbport $VNC_PORT -shared  -scale $VNC_RESOLUTION &
+$NOVNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT &
+firefox --display $DISPLAY -fullscreen -no-remote -new-window $NEW_URL 2> /dev/null
