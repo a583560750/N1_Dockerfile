@@ -1,0 +1,27 @@
+#!/usr/bin/with-contenv bash
+if [ ! -e "/app/duplicati/Duplicati.Server.exe" ]; then
+	echo "**** install duplicati ****"
+	if [ -z ${DUPLICATI_RELEASE+x} ]; then
+		DUPLICATI_RELEASE=$(curl -sX GET "https://api.github.com/repos/duplicati/duplicati/releases" | jq -r 'first(.[] | select(.tag_name | contains("canary"))) | .tag_name')
+	fi
+	mkdir -p /app/duplicati
+	duplicati_url=$(curl -s https://api.github.com/repos/duplicati/duplicati/releases/tags/"${DUPLICATI_RELEASE}" |jq -r '.assets[].browser_download_url' |grep zip |grep -v signatures)
+	curl -so /tmp/duplicati.zip -L "${duplicati_url}"
+	unzip -q /tmp/duplicati.zip -d /app/duplicati
+	rm -rf \
+		/tmp/* \
+		/var/lib/apt/lists/* \
+		/var/tmp/*
+	echo "install duplicati success"
+	sleep 3
+	echo "duplicati starting"
+else
+	sleep 5
+	echo "duplicati starting"
+fi
+		
+cd /app/duplicati || exit
+
+ exec \
+	s6-setuidgid abc mono Duplicati.Server.exe \
+	--webservice-interface=any --server-datafolder=/config --webservice-allowed-hostnames=* $CLI_ARGS

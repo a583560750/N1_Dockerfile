@@ -1,0 +1,6 @@
+#!/bin/sh
+
+TITLE=$1
+CONTENT=$2
+ADDRESSEE=$3
+echo -e $CONTENT | mutt -s $TITLE $ADDRESSEE
